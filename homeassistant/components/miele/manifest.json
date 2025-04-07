@@ -9,6 +9,5 @@
   "loggers": ["pymiele"],
   "quality_scale": "bronze",
   "requirements": ["pymiele==0.3.1"],
-  "single_config_entry": true,
-  "zeroconf": ["_mieleathome._tcp.local."]
+  "single_config_entry": true
 }

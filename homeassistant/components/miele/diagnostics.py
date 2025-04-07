@@ -20,11 +20,11 @@ async def async_get_config_entry_diagnostics(
     miele_data = {}
     devices = {
         device_id: device_data.raw
-        for device_id, device_data in config_entry.runtime_data.coordinator.data.devices.items()
+        for device_id, device_data in config_entry.runtime_data.data.devices.items()
     }
     actions = {
         device_id: action_data.raw
-        for device_id, action_data in config_entry.runtime_data.coordinator.data.actions.items()
+        for device_id, action_data in config_entry.runtime_data.data.actions.items()
     }
     miele_data["devices"] = devices
     miele_data["actions"] = actions

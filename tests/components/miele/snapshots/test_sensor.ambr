@@ -29,7 +29,7 @@
     'previous_unique_id': None,
     'supported_features': 0,
     'translation_key': 'status',
-    'unique_id': 'state_status-Appliance_1',
+    'unique_id': 'Appliance_1-state_status',
     'unit_of_measurement': None,
   })
 # ---
@@ -79,7 +79,7 @@
     'previous_unique_id': None,
     'supported_features': 0,
     'translation_key': 'temperature',
-    'unique_id': 'state_temperature_1-Appliance_1',
+    'unique_id': 'Appliance_1-state_temperature_1',
     'unit_of_measurement': <UnitOfTemperature.CELSIUS: '°C'>,
   })
 # ---
@@ -129,7 +129,7 @@
     'previous_unique_id': None,
     'supported_features': 0,
     'translation_key': 'status',
-    'unique_id': 'state_status-Appliance_2',
+    'unique_id': 'Appliance_2-state_status',
     'unit_of_measurement': None,
   })
 # ---
@@ -179,7 +179,7 @@
     'previous_unique_id': None,
     'supported_features': 0,
     'translation_key': 'temperature',
-    'unique_id': 'state_temperature_1-Appliance_2',
+    'unique_id': 'Appliance_2-state_temperature_1',
     'unit_of_measurement': <UnitOfTemperature.CELSIUS: '°C'>,
   })
 # ---
@@ -229,7 +229,7 @@
     'previous_unique_id': None,
     'supported_features': 0,
     'translation_key': 'status',
-    'unique_id': 'state_status-000186528088',
+    'unique_id': '000186528088-state_status',
     'unit_of_measurement': None,
   })
 # ---

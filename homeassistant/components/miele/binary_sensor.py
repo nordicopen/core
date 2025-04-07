@@ -268,13 +268,13 @@ async def async_setup_entry(
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the sensor platform."""
-    coordinator = config_entry.runtime_data.coordinator
+    coordinator = config_entry.runtime_data
 
     entities = [
         MieleBinarySensor(coordinator, device_id, definition.description)
-        for device_id in coordinator.data.devices
+        for device_id, device in coordinator.data.devices.items()
         for definition in BINARY_SENSOR_TYPES
-        if coordinator.data.devices[device_id].device_type in definition.types
+        if device.device_type in definition.types
     ]
 
     async_add_entities(entities)
@@ -292,6 +292,7 @@ class MieleBinarySensor(MieleEntity, BinarySensorEntity):
         description: MieleBinarySensorDescription,
     ) -> None:
         """Initialize the sensor."""
+        self.device = coordinator.data.devices[device_id]
         super().__init__(coordinator, device_id, description)
 
     @property

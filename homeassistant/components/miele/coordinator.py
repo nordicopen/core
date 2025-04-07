@@ -19,15 +19,7 @@ from .const import DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 
-type MieleConfigEntry = ConfigEntry[MieleRuntimeData]
-
-
-@dataclass
-class MieleRuntimeData:
-    """Class to hold runtime data for Miele integration."""
-
-    coordinator: MieleDataUpdateCoordinator
-    event_listener: asyncio.Task | None
+type MieleConfigEntry = ConfigEntry[MieleDataUpdateCoordinator]
 
 
 @dataclass
@@ -41,12 +33,9 @@ class MieleCoordinatorData:
 class MieleDataUpdateCoordinator(DataUpdateCoordinator[MieleCoordinatorData]):
     """Coordinator for Miele data."""
 
-    config_entry: MieleConfigEntry
-
     def __init__(
         self,
         hass: HomeAssistant,
-        config_entry: MieleConfigEntry,
         api: AsyncConfigEntryAuth,
     ) -> None:
         """Initialize the Miele data coordinator."""
@@ -56,7 +45,6 @@ class MieleDataUpdateCoordinator(DataUpdateCoordinator[MieleCoordinatorData]):
             name=DOMAIN,
             update_interval=timedelta(seconds=120),
         )
-        self.config_entry = config_entry
         self.api = api
 
     async def _async_update_data(self) -> MieleCoordinatorData:
@@ -80,10 +68,10 @@ class MieleDataUpdateCoordinator(DataUpdateCoordinator[MieleCoordinatorData]):
             device_id: MieleDevice(device) for device_id, device in devices_json.items()
         }
         try:
-            self.config_entry.runtime_data.coordinator.async_set_updated_data(
+            self.async_set_updated_data(
                 MieleCoordinatorData(
                     devices=devices,
-                    actions=self.config_entry.runtime_data.coordinator.data.actions,
+                    actions=self.data.actions,
                 )
             )
         except Exception as err:  # pylint: disable=broad-except  # noqa: BLE001
@@ -95,9 +83,9 @@ class MieleDataUpdateCoordinator(DataUpdateCoordinator[MieleCoordinatorData]):
             device_id: MieleAction(action) for device_id, action in actions_json.items()
         }
         try:
-            self.config_entry.runtime_data.coordinator.async_set_updated_data(
+            self.async_set_updated_data(
                 MieleCoordinatorData(
-                    devices=self.config_entry.runtime_data.coordinator.data.devices,
+                    devices=self.data.devices,
                     actions=actions,
                 )
             )
