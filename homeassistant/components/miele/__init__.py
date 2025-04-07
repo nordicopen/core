@@ -12,9 +12,10 @@ from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import aiohttp_client, config_entry_oauth2_flow
 
 from .api import AsyncConfigEntryAuth
+from .const import DOMAIN
 from .coordinator import MieleConfigEntry, MieleDataUpdateCoordinator, MieleRuntimeData
 
-_PLATFORMS: list[Platform] = [
+PLATFORMS: list[Platform] = [
     Platform.BINARY_SENSOR,
     Platform.SENSOR,
     Platform.SWITCH,
@@ -30,18 +31,27 @@ async def async_setup_entry(hass: HomeAssistant, entry: MieleConfigEntry) -> boo
     )
 
     session = config_entry_oauth2_flow.OAuth2Session(hass, entry, implementation)
+    auth = AsyncConfigEntryAuth(aiohttp_client.async_get_clientsession(hass), session)
     try:
-        await session.async_ensure_token_valid()
+        await auth.async_get_access_token()
     except ClientResponseError as err:
         if 400 <= err.status < 500:
-            raise ConfigEntryAuthFailed from err
-        raise ConfigEntryNotReady from err
+            raise ConfigEntryAuthFailed(
+                translation_domain=DOMAIN,
+                translation_key="config_entry_auth_failed",
+            ) from err
+        raise ConfigEntryNotReady(
+            translation_domain=DOMAIN,
+            translation_key="config_entry_not_ready",
+        ) from err
     except ClientError as err:
-        raise ConfigEntryNotReady from err
+        raise ConfigEntryNotReady(
+            translation_domain=DOMAIN,
+            translation_key="config_entry_not_ready",
+        ) from err
 
     # Setup MieleAPI and coordinator for data fetch
-    api = AsyncConfigEntryAuth(aiohttp_client.async_get_clientsession(hass), session)
-    coordinator = MieleDataUpdateCoordinator(hass, entry, api)
+    coordinator = MieleDataUpdateCoordinator(hass, entry, auth)
     await coordinator.async_config_entry_first_refresh()
     entry.runtime_data = MieleRuntimeData(coordinator, None)
 
@@ -51,7 +61,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: MieleConfigEntry) -> boo
             actions_callback=entry.runtime_data.coordinator.callback_update_actions,
         )
     )
-    await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     return True
 
@@ -60,4 +70,4 @@ async def async_unload_entry(hass: HomeAssistant, entry: MieleConfigEntry) -> bo
     """Unload a config entry."""
 
     entry.runtime_data.event_listener.cancel()  # type: ignore[union-attr]
-    return await hass.config_entries.async_unload_platforms(entry, _PLATFORMS)
+    return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)

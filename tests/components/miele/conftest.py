@@ -32,14 +32,13 @@ def mock_expires_at() -> float:
 def mock_config_entry(hass: HomeAssistant, expires_at: float) -> MockConfigEntry:
     """Return the default mocked config entry."""
     config_entry = MockConfigEntry(
-        minor_version=2,
+        minor_version=1,
         domain=DOMAIN,
         title="Miele test",
         data={
             "auth_implementation": DOMAIN,
             "token": {
                 "access_token": "Fake_token",
-                "scope": "WRITESYSTEM READSYSTEM offline_access",
                 "expires_in": 86399,
                 "refresh_token": "3012bc9f-7a65-4240-b817-9154ffdcc30f",
                 "token_type": "Bearer",
@@ -141,7 +140,7 @@ def action_fixture(load_action_file: str) -> MieleAction:
 
 @pytest.fixture
 def mock_miele_client(
-    load_device_file,
+    # load_device_file,
     device_fixture,
     action_fixture,
     # load_device_points_jv_file,

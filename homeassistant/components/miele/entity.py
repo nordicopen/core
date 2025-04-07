@@ -4,7 +4,7 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, MANUFACTURER
+from .const import DOMAIN, MANUFACTURER, StateStatus
 from .coordinator import MieleDataUpdateCoordinator
 
 
@@ -41,4 +41,16 @@ class MieleEntity(CoordinatorEntity[MieleDataUpdateCoordinator]):
             sw_version=self.coordinator.data.devices[
                 self._device_id
             ].xkm_release_version,
+        )
+
+    @property
+    def available(self) -> bool:
+        """Return the availability of the entity."""
+
+        if not self.coordinator.last_update_success:
+            return False
+
+        return (
+            self.coordinator.data.devices[self._device_id].state_status
+            != StateStatus.NOT_CONNECTED
         )

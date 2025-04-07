@@ -1,5 +1,7 @@
 """API for Miele bound to Home Assistant OAuth."""
 
+from typing import cast
+
 from aiohttp import ClientSession
 from pymiele import MIELE_API, AbstractAuth
 
@@ -22,4 +24,4 @@ class AsyncConfigEntryAuth(AbstractAuth):
         """Return a valid access token."""
         await self._oauth_session.async_ensure_token_valid()
 
-        return self._oauth_session.token["access_token"]
+        return cast(str, self._oauth_session.token["access_token"])

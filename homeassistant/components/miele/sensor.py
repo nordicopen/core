@@ -18,7 +18,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.typing import StateType
 
-from .const import STATE_STATUS_TAGS, MieleAppliance, StateStatus
+from .const import STATE_STATUS_TAGS, MieleAppliance
 from .coordinator import MieleConfigEntry, MieleDataUpdateCoordinator
 from .entity import MieleEntity
 
@@ -123,12 +123,19 @@ async def async_setup_entry(
     """Set up the sensor platform."""
     coordinator = config_entry.runtime_data.coordinator
 
-    entities = [
-        MieleSensor(coordinator, device_id, definition.description)
-        for device_id in coordinator.data.devices
-        for definition in SENSOR_TYPES
-        if coordinator.data.devices[device_id].device_type in definition.types
-    ]
+    entities: list = []
+    entity_class: type[MieleSensor]
+    for device_id in coordinator.data.devices:
+        for definition in SENSOR_TYPES:
+            if coordinator.data.devices[device_id].device_type in definition.types:
+                match definition.description.key:
+                    case "state_status":
+                        entity_class = MieleStatusSensor
+                    case _:
+                        entity_class = MieleSensor
+                entities.extend(
+                    [entity_class(coordinator, device_id, definition.description)]
+                )
 
     async_add_entities(entities)
 
@@ -176,11 +183,6 @@ class MieleSensor(MieleEntity, SensorEntity):
     ) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator, device_id, description)
-        if description.key == "state_status":
-            self._attr_icon = APPLIANCE_ICONS.get(
-                MieleAppliance(coordinator.data.devices[self._device_id].device_type),
-                "mdi:state-machine",
-            )
 
     @property
     def native_value(self) -> StateType:
@@ -194,18 +196,27 @@ class MieleSensor(MieleEntity, SensorEntity):
             value = self.entity_description.convert(value)
         return value
 
+
+class MieleStatusSensor(MieleSensor):
+    """Representation of a status sensor."""
+
+    def __init__(
+        self,
+        coordinator: MieleDataUpdateCoordinator,
+        device_id: str,
+        description: MieleSensorDescription,
+    ) -> None:
+        """Initialize the sensor."""
+        super().__init__(coordinator, device_id, description)
+        self._attr_icon = APPLIANCE_ICONS.get(
+            MieleAppliance(coordinator.data.devices[self._device_id].device_type),
+            "mdi:state-machine",
+        )
+
     @property
     def available(self) -> bool:
         """Return the availability of the entity."""
-
-        if self.entity_description.key == "state_status":
-            return True
-        if not self.coordinator.last_update_success:
-            return False
-        return (
-            self.coordinator.data.devices[self._device_id].state_status
-            != StateStatus.NOT_CONNECTED
-        )
+        return True
 
 
 # class MieleSensor(MieleEntity, SensorEntity):

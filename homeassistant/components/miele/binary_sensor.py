@@ -16,7 +16,7 @@ from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from .const import MieleAppliance, StateStatus
+from .const import MieleAppliance
 from .coordinator import MieleConfigEntry, MieleDataUpdateCoordinator
 from .entity import MieleEntity
 
@@ -301,16 +301,4 @@ class MieleBinarySensor(MieleEntity, BinarySensorEntity):
             self.coordinator.data.devices[self._device_id],
             self.entity_description.data_tag,
             None,
-        )
-
-    @property
-    def available(self) -> bool:
-        """Return the availability of the entity."""
-
-        if not self.coordinator.last_update_success:
-            return False
-
-        return (
-            self.coordinator.data.devices[self._device_id].state_status
-            != StateStatus.NOT_CONNECTED
         )

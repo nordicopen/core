@@ -7,7 +7,6 @@
         'access_token': '**REDACTED**',
         'expires_in': 86399,
         'refresh_token': '**REDACTED**',
-        'scope': 'WRITESYSTEM READSYSTEM offline_access',
         'token_type': 'Bearer',
       }),
     }),

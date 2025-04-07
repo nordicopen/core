@@ -10,9 +10,11 @@ import aiohttp
 
 from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
+    DOMAIN,
     POWER_OFF,
     POWER_ON,
     PROCESS_ACTION,
@@ -177,18 +179,21 @@ class MieleSwitch(MieleEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn on the device."""
-        try:
-            await self._api.send_action(
-                self._device_id, self.entity_description.on_data
-            )
-        except aiohttp.ClientResponseError as ex:
-            _LOGGER.error("Turn_on: %s - %s", ex.status, ex.message)
+        await self._async_turn_switch(self.entity_description.on_data)
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn off the device."""
+        await self._async_turn_switch(self.entity_description.off_data)
+
+    async def _async_turn_switch(self, mode: dict[str, str | int | bool]) -> None:
+        """Set switch to mode."""
         try:
-            await self._api.send_action(
-                self._device_id, self.entity_description.off_data
-            )
-        except aiohttp.ClientResponseError as ex:
-            _LOGGER.error("Turn_off: %s - %s", ex.status, ex.message)
+            await self._api.send_action(self._device_id, mode)
+        except aiohttp.ClientError as err:
+            raise HomeAssistantError(
+                translation_domain=DOMAIN,
+                translation_key="set_switch_error",
+                translation_placeholders={
+                    "entity": self.entity_id,
+                },
+            ) from err
