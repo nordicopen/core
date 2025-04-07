@@ -216,4 +216,5 @@ class MieleStatusSensor(MieleSensor):
     @property
     def available(self) -> bool:
         """Return the availability of the entity."""
+        # This sensor should always be available
         return True

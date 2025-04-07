@@ -163,19 +163,15 @@ class MieleSwitch(MieleEntity, SwitchEntity):
     def available(self) -> bool:
         """Return the availability of the entity."""
 
-        if not self.coordinator.last_update_success:
-            return False
-
         if self.entity_description.key in {"poweronoff"}:
-            return (
+            avail = (
                 self.coordinator.data.actions[self._device_id].power_off_enabled
                 or self.coordinator.data.actions[self._device_id].power_on_enabled
             )
+        else:
+            avail = True
 
-        return (
-            self.coordinator.data.devices[self._device_id].state_status
-            != StateStatus.NOT_CONNECTED
-        )
+        return super().available and avail
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn on the device."""
