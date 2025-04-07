@@ -94,59 +94,10 @@ def action_fixture(load_action_file: str) -> MieleAction:
     return json_loads(load_action_file)
 
 
-# # Fixture group for systems API endpoint.
-
-
-# @pytest.fixture
-# def load_systems_jv_file(load_systems_file: str) -> dict[str, Any]:
-#     """Load fixture file for systems endpoint."""
-#     return json_loads(load_systems_file)
-
-
-# @pytest.fixture(scope="package")
-# def load_systems_file() -> str:
-#     """Load fixture file for systems."""
-#     return load_fixture("systems-2dev.json", DOMAIN)
-
-
-# @pytest.fixture
-# def system_fixture(load_systems_file: str) -> list[System]:
-#     """Fixture for systems."""
-#     data = json_loads(load_systems_file)
-#     return [System(system_data) for system_data in data["systems"]]
-
-
-# # Fixture group for device points API endpoint.
-
-
-# @pytest.fixture
-# def load_device_points_file() -> str:
-#     """Load fixture file for device-points endpoint."""
-#     return "device_points_nibe_f730.json"
-
-
-# @pytest.fixture
-# def load_device_points_jv_file(load_device_points_file) -> str:
-#     """Load fixture file for device_points."""
-#     return load_fixture(load_device_points_file, DOMAIN)
-
-
-# @pytest.fixture
-# def device_points_fixture(load_device_points_jv_file: str) -> list[DevicePoint]:
-#     """Fixture for device_points."""
-#     data = orjson.loads(load_device_points_jv_file)
-#     return [DevicePoint(point_data) for point_data in data]
-
-
 @pytest.fixture
 def mock_miele_client(
-    # load_device_file,
     device_fixture,
     action_fixture,
-    # load_device_points_jv_file,
-    # device_points_fixture,
-    # system_fixture,
-    # load_systems_jv_file,
 ) -> Generator[MagicMock]:
     """Mock a Miele client."""
 
@@ -205,11 +156,7 @@ async def access_token(hass: HomeAssistant) -> str:
         {
             "sub": UNIQUE_ID,
             "aud": [],
-            "scp": [
-                "WRITESYSTEM",
-                "READSYSTEM",
-                "offline_access",
-            ],
+            "scp": [],
             "ou_code": "NA",
         },
     )

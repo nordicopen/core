@@ -1,17 +1,26 @@
 rules:
   # Bronze
-  action-setup: done
+  action-setup:
+    status: exempt
+    comment: |
+      No custom actions are defined.
   appropriate-polling: done
   brands: done
   common-modules: done
   config-flow-test-coverage: done
   config-flow: done
   dependency-transparency: done
-  docs-actions: done
+  docs-actions:
+    status: exempt
+    comment: |
+      No custom actions are defined.
   docs-high-level-description: done
   docs-installation-instructions: done
   docs-removal-instructions: done
-  entity-event-setup: done
+  entity-event-setup:
+    status: exempt
+    comment: |
+      No explicit event subscriptions.
   entity-unique-id: done
   has-entity-name: done
   runtime-data: done
@@ -22,12 +31,16 @@ rules:
   # Silver
   action-exceptions: todo
   config-entry-unloading: done
-  docs-configuration-parameters: todo
+  docs-configuration-parameters:
+    status: exempt
+    comment: No configuration parameters
   docs-installation-parameters: todo
   entity-unavailable: todo
   integration-owner: done
   log-when-unavailable: todo
-  parallel-updates: todo
+  parallel-updates:
+    status: exempt
+    comment: Handled by coordinator
   reauthentication-flow: done
   test-coverage: todo
 
