@@ -47,6 +47,14 @@
         "name": "Smart grid"
       }
     },
+    "light": {
+      "ambient_light": {
+        "name": "Ambient light"
+      },
+      "light": {
+        "name": "Light"
+      }
+    },
     "sensor": {
       "status": {
         "name": "Status",
@@ -93,6 +101,9 @@
     },
     "config_entry_not_ready": {
       "message": "Error while loading the integration."
+    },
+    "set_light_error": {
+      "message": "Failed to set state for {entity}."
     },
     "set_switch_error": {
       "message": "Failed to set state for {entity}."

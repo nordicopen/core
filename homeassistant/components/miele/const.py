@@ -6,6 +6,10 @@ DOMAIN = "miele"
 MANUFACTURER = "Miele"
 
 ACTIONS = "actions"
+AMBIENT_LIGHT = "ambientLight"
+LIGHT = "light"
+LIGHT_ON = 1
+LIGHT_OFF = 2
 POWER_ON = "powerOn"
 POWER_OFF = "powerOff"
 PROCESS_ACTION = "processAction"

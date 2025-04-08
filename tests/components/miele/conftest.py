@@ -88,6 +88,12 @@ def load_action_file() -> str:
     return load_fixture("action_washing_machine.json", DOMAIN)
 
 
+@pytest.fixture(scope="package")
+def load_programs_file() -> list[dict]:
+    """Fixture for loading programs file."""
+    return load_fixture("programs_washing_machine.json", DOMAIN)
+
+
 @pytest.fixture
 def action_fixture(load_action_file: str) -> MieleAction:
     """Fixture for action."""
@@ -95,9 +101,16 @@ def action_fixture(load_action_file: str) -> MieleAction:
 
 
 @pytest.fixture
+def programs_fixture(load_programs_file: str) -> dict:
+    """Fixture for available programs."""
+    return json_loads(load_programs_file)
+
+
+@pytest.fixture
 def mock_miele_client(
     device_fixture,
     action_fixture,
+    programs_fixture,
 ) -> Generator[MagicMock]:
     """Mock a Miele client."""
 
@@ -109,6 +122,7 @@ def mock_miele_client(
 
         client.get_devices.return_value = device_fixture
         client.get_actions.return_value = action_fixture
+        client.get_programs.return_value = programs_fixture
 
         yield client
 

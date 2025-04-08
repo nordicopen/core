@@ -292,7 +292,6 @@ class MieleBinarySensor(MieleEntity, BinarySensorEntity):
         description: MieleBinarySensorDescription,
     ) -> None:
         """Initialize the sensor."""
-        self.device = coordinator.data.devices[device_id]
         super().__init__(coordinator, device_id, description)
 
     @property

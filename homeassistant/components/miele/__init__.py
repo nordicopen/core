@@ -15,6 +15,7 @@ from .coordinator import MieleConfigEntry, MieleDataUpdateCoordinator
 
 PLATFORMS: list[Platform] = [
     Platform.BINARY_SENSOR,
+    Platform.LIGHT,
     Platform.SENSOR,
     Platform.SWITCH,
 ]
