@@ -1,9 +1,9 @@
 """Tests for miele vacuum module."""
 
+from typing import Any
 from unittest.mock import MagicMock, Mock
 
 from aiohttp import ClientResponseError
-from pymiele import MieleDevices
 import pytest
 from syrupy.assertion import SnapshotAssertion
 
@@ -60,7 +60,7 @@ async def test_vacuum_states_api_push(
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
-    device_fixture: MieleDevices,
+    device_fixture: dict[str, Any],
 ) -> None:
     """Test vacuum state when the API pushes data via SSE."""
 

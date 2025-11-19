@@ -1,10 +1,10 @@
 """Tests for miele sensor module."""
 
 from datetime import UTC, datetime, timedelta
+from typing import Any
 from unittest.mock import MagicMock
 
 from freezegun.api import FrozenDateTimeFactory
-from pymiele import MieleDevices
 import pytest
 from syrupy.assertion import SnapshotAssertion
 
@@ -62,7 +62,7 @@ async def test_hob_sensor_states(
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
-    setup_platform: None,
+    setup_platform: MockConfigEntry,
 ) -> None:
     """Test sensor state."""
 
@@ -77,7 +77,7 @@ async def test_fridge_freezer_sensor_states(
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
-    setup_platform: None,
+    setup_platform: MockConfigEntry,
 ) -> None:
     """Test sensor state."""
 
@@ -91,7 +91,7 @@ async def test_oven_temperatures_scenario(
     mock_miele_client: MagicMock,
     setup_platform: None,
     mock_config_entry: MockConfigEntry,
-    device_fixture: MieleDevices,
+    device_fixture: dict[str, Any],
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Parametrized test for verifying temperature sensors for oven devices."""
@@ -188,7 +188,7 @@ async def test_oven_temperatures_scenario(
 def check_sensor_state(
     hass: HomeAssistant,
     sensor_entity: str,
-    expected: str,
+    expected: str | None,
     step: int,
 ):
     """Check the state of sensor matches the expected state."""
@@ -213,7 +213,7 @@ async def test_temperature_sensor_registry_lookup(
     mock_config_entry: MockConfigEntry,
     mock_miele_client: MagicMock,
     setup_platform: None,
-    device_fixture: MieleDevices,
+    device_fixture: dict[str, Any],
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that core temperature sensor is provided by the integration after looking up in entity registry."""
@@ -254,7 +254,7 @@ async def test_vacuum_sensor_states(
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
-    setup_platform: None,
+    setup_platform: MockConfigEntry,
 ) -> None:
     """Test robot vacuum cleaner sensor state."""
 
@@ -269,7 +269,7 @@ async def test_fan_hob_sensor_states(
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
-    setup_platform: None,
+    setup_platform: MockConfigEntry,
 ) -> None:
     """Test robot fan / hob sensor state."""
 
@@ -284,7 +284,7 @@ async def test_coffee_system_sensor_states(
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
-    setup_platform: None,
+    setup_platform: MockConfigEntry,
 ) -> None:
     """Test coffee system sensor state."""
 
@@ -298,7 +298,7 @@ async def test_laundry_wash_scenario(
     mock_miele_client: MagicMock,
     setup_platform: None,
     mock_config_entry: MockConfigEntry,
-    device_fixture: MieleDevices,
+    device_fixture: dict[str, Any],
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Parametrized test for verifying time sensors for wahsing machine devices when API glitches at program end."""
@@ -544,7 +544,7 @@ async def test_laundry_dry_scenario(
     mock_miele_client: MagicMock,
     setup_platform: None,
     mock_config_entry: MockConfigEntry,
-    device_fixture: MieleDevices,
+    device_fixture: dict[str, Any],
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Parametrized test for verifying time sensors for tumble dryer devices when API reports time value from last cycle, when device is off."""
@@ -642,7 +642,7 @@ async def test_elapsed_time_sensor_restored(
     mock_config_entry: MockConfigEntry,
     mock_miele_client: MagicMock,
     setup_platform: None,
-    device_fixture: MieleDevices,
+    device_fixture: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     restore_state,
     restore_state_abs,
