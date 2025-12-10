@@ -179,6 +179,11 @@
         "name": "[%key:component::fan::title%]"
       }
     },
+    "image": {
+      "oven_camera_image": {
+        "name": "Oven camera image"
+      }
+    },
     "light": {
       "ambient_light": {
         "name": "Ambient light"
