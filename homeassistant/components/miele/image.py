@@ -97,6 +97,9 @@ class MieleImage(MieleEntity, ImageEntity):
 
     async def async_image(self) -> bytes | None:
         """Return bytes of image."""
+        # Parse the data uri, decode and return the image bytes
+        # "data:image/gif;base64,...."
+
         self._attr_image_last_updated = dt_util.utcnow()
         image_path = Path(__file__).parent / "pizza_slice.gif"
         return await self.hass.async_add_executor_job(image_path.read_bytes)
