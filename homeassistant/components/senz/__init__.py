@@ -54,6 +54,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: SENZConfigEntry) -> bool
         """Fetch SENZ thermostats data."""
         try:
             thermostats = await senz_api.get_thermostats()
+        except HTTPStatusError as err:
+            if err.response.status_code == HTTPStatus.TOO_MANY_REQUESTS:
+                _LOGGER.error(
+                    "SENZ API rate limit exceeded: %s, Retry after %s ",
+                    err.response.text,
+                    err.response.headers.get("Retry-After"),
+                )
+            raise UpdateFailed from err
         except RequestError as err:
             raise UpdateFailed from err
         return {thermostat.serial_number: thermostat for thermostat in thermostats}
