@@ -759,6 +759,16 @@ DHCP: Final[list[dict[str, str | bool]]] = [
         "hostname": "sensibo*",
     },
     {
+        "domain": "senz",
+        "hostname": "hf-lp*",
+        "macaddress": "002338*",
+    },
+    {
+        "domain": "senz",
+        "hostname": "hf-lp*",
+        "macaddress": "F0FE6B*",
+    },
+    {
         "domain": "simplisafe",
         "hostname": "simplisafe*",
         "macaddress": "30AEA4*",

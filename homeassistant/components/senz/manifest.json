@@ -4,6 +4,16 @@
   "codeowners": ["@milanmeu"],
   "config_flow": true,
   "dependencies": ["application_credentials"],
+  "dhcp": [
+    {
+      "hostname": "hf-lp*",
+      "macaddress": "002338*"
+    },
+    {
+      "hostname": "hf-lp*",
+      "macaddress": "F0FE6B*"
+    }
+  ],
   "documentation": "https://www.home-assistant.io/integrations/senz",
   "iot_class": "cloud_polling",
   "loggers": ["aiosenz"],

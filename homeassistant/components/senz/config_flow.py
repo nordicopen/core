@@ -12,6 +12,7 @@ from homeassistant.config_entries import (
     ConfigFlowResult,
 )
 from homeassistant.helpers import config_entry_oauth2_flow
+from homeassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 from .const import DOMAIN
 
@@ -55,6 +56,12 @@ class OAuth2FlowHandler(
         self, user_input: Mapping[str, Any] | None = None
     ) -> ConfigFlowResult:
         """User initiated reconfiguration."""
+        return await self.async_step_user()
+
+    async def async_step_dhcp(
+        self, discovery_info: DhcpServiceInfo
+    ) -> ConfigFlowResult:
+        """Handle a flow initialized by dhcp discovery."""
         return await self.async_step_user()
 
     async def async_oauth_create_entry(self, data: dict) -> ConfigFlowResult:
