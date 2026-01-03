@@ -747,6 +747,26 @@ POLLED_SENSOR_TYPES: Final[tuple[MieleSensorDefinition[MieleFillingLevel], ...]]
             entity_category=EntityCategory.DIAGNOSTIC,
         ),
     ),
+    MieleSensorDefinition(
+        types=(MieleAppliance.HOOD,),
+        description=MieleSensorDescription[MieleFillingLevel](
+            key="coal_filter_saturation",
+            translation_key="coal_filter_saturation",
+            value_fn=lambda value: value.coal_filter_saturation,
+            native_unit_of_measurement=PERCENTAGE,
+            entity_category=EntityCategory.DIAGNOSTIC,
+        ),
+    ),
+    MieleSensorDefinition(
+        types=(MieleAppliance.HOOD,),
+        description=MieleSensorDescription[MieleFillingLevel](
+            key="fat_filter_saturation",
+            translation_key="fat_filter_saturation",
+            value_fn=lambda value: value.fat_filter_saturation,
+            native_unit_of_measurement=PERCENTAGE,
+            entity_category=EntityCategory.DIAGNOSTIC,
+        ),
+    ),
 )
 
 

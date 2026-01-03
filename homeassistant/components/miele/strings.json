@@ -199,6 +199,9 @@
       }
     },
     "sensor": {
+      "coal_filter_saturation": {
+        "name": "Coal filter saturation"
+      },
       "core_target_temperature": {
         "name": "Core target temperature"
       },
@@ -226,6 +229,9 @@
       },
       "energy_forecast": {
         "name": "Energy forecast"
+      },
+      "fat_filter_saturation": {
+        "name": "Fat filter saturation"
       },
       "finish": {
         "name": "Finish"

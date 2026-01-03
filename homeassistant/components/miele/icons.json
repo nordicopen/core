@@ -26,6 +26,9 @@
       }
     },
     "sensor": {
+      "coal_filter_saturation": {
+        "default": "mdi:air-filter"
+      },
       "core_target_temperature": {
         "default": "mdi:thermometer-probe"
       },
@@ -40,6 +43,9 @@
       },
       "energy_forecast": {
         "default": "mdi:lightning-bolt-outline"
+      },
+      "fat_filter_saturation": {
+        "default": "mdi:air-filter"
       },
       "finish": {
         "default": "mdi:clock-end"
