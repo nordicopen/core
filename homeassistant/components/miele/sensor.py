@@ -722,7 +722,7 @@ POLLED_SENSOR_TYPES: Final[tuple[MieleSensorDefinition[MieleFillingLevel], ...]]
         description=MieleSensorDescription[MieleFillingLevel](
             key="power_disk_level",
             translation_key="power_disk_level",
-            value_fn=lambda value: None,
+            value_fn=lambda value: value.power_disc_filling_level,
             native_unit_of_measurement=PERCENTAGE,
             entity_category=EntityCategory.DIAGNOSTIC,
         ),
@@ -887,7 +887,8 @@ async def async_setup_entry(
         MieleAuxSensor(aux_coordinator, device_id, definition.description)
         for device_id in aux_coordinator.data.filling_levels
         for definition in POLLED_SENSOR_TYPES
-        if _enabled_aux_sensor(
+        if coordinator.data.devices[device_id].device_type in definition.types
+        and _enabled_aux_sensor(
             definition, aux_coordinator.data.filling_levels[device_id]
         )
     )

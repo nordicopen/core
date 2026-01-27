@@ -62,7 +62,7 @@ async def test_hob_sensor_states(
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
-    setup_platform: None,
+    setup_platform: MockConfigEntry,
 ) -> None:
     """Test sensor state."""
 
@@ -77,7 +77,7 @@ async def test_fridge_freezer_sensor_states(
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
-    setup_platform: None,
+    setup_platform: MockConfigEntry,
 ) -> None:
     """Test sensor state."""
 
@@ -89,7 +89,7 @@ async def test_fridge_freezer_sensor_states(
 async def test_oven_temperatures_scenario(
     hass: HomeAssistant,
     mock_miele_client: MagicMock,
-    setup_platform: None,
+    setup_platform: MockConfigEntry,
     mock_config_entry: MockConfigEntry,
     device_fixture: MieleDevices,
     freezer: FrozenDateTimeFactory,
@@ -212,7 +212,7 @@ async def test_temperature_sensor_registry_lookup(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
     mock_miele_client: MagicMock,
-    setup_platform: None,
+    setup_platform: MockConfigEntry,
     device_fixture: MieleDevices,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -254,7 +254,7 @@ async def test_vacuum_sensor_states(
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
-    setup_platform: None,
+    setup_platform: MockConfigEntry,
 ) -> None:
     """Test robot vacuum cleaner sensor state."""
 
@@ -269,7 +269,7 @@ async def test_fan_hob_sensor_states(
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
-    setup_platform: None,
+    setup_platform: MockConfigEntry,
 ) -> None:
     """Test robot fan / hob sensor state."""
 
@@ -284,7 +284,7 @@ async def test_coffee_system_sensor_states(
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
-    setup_platform: None,
+    setup_platform: MockConfigEntry,
 ) -> None:
     """Test coffee system sensor state."""
 
